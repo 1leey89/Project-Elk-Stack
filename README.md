@@ -4,7 +4,8 @@ The files in this repository were used to configure the network depicted below.
 
 Project 1 Diagram of Elk.PNG
 
-![Project_Diagram_of_Elk_VM](/uploads/f907520742f02b0ab158bccef729443e/Project_Diagram_of_Elk_VM.png)
+![Project Diagram of Elk VM](https://user-images.githubusercontent.com/88859779/141648701-d191b487-e6e7-418c-98d4-6789db64fc82.png)
+
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _YML configuration_ file may be used to install only certain pieces of it, such as Filebeat.
 
@@ -177,15 +178,15 @@ The following screenshot displays the result of running `docker ps` after succes
 
 _Elk Server_
 
-![Elk_docker_ps](/uploads/70ff95fa9f64b3e02eca2c0ea7020e66/Elk_docker_ps.png)
+![Elk docker ps](https://user-images.githubusercontent.com/88859779/141648723-882227ce-22c8-4521-a094-df0c5f4fa1ad.png)
 
 _Web-1_
 
-![Web-1_docker_ps](/uploads/89d2a85886f9ccbe2ce7d93076d32da2/Web-1_docker_ps.png)
+![Web-1 docker ps](https://user-images.githubusercontent.com/88859779/141648732-1c7e4bc3-f227-42e1-b9d3-dd7ba5c99a59.png)
 
 _Web-2_
 
-![Web-2_docker_ps](/uploads/f35b29f52d2cb26fed6c98db766de1d4/Web-2_docker_ps.png)
+![Web-2 docker ps](https://user-images.githubusercontent.com/88859779/141648736-7f19f795-81d6-49b0-93ab-47db01535420.png)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
@@ -215,15 +216,15 @@ SSH into the control node and follow the steps below:
 
 - Copy the _Filebeat Playbook_ file to _/etc/ansible_.
 
-![etc.ansible](/uploads/74980f08544d555032a09232ee3336ff/etc.ansible.png)
+![etc ansible](https://user-images.githubusercontent.com/88859779/141648775-1631eed9-c0ae-43f3-8f42-df14a638f1a1.png)
 
 - Update the _/etc/ansible/hosts_ file to _include Web-1, Web-2, and Elk-server._
 
-![machine_specification_in_hosts](/uploads/0a59954626b652753abb2a3a84d5eae8/machine_specification_in_hosts.png)
+![machine specification in hosts](https://user-images.githubusercontent.com/88859779/141648782-6a2a6cc7-4c7d-4de8-b737-a484503d8f73.png)
 
 - Run the playbook, and navigate to _the Elk VM via Kibana URL_ to check that the installation worked as expected.
 
-![Verify_Installation_Playbook](/uploads/77876cf5723930ad7d7665a4cf6740ab/Verify_Installation_Playbook.PNG)
+![Verify Installation Playbook](https://user-images.githubusercontent.com/88859779/141648789-d77284ca-f13a-499c-ab4e-7f27ae353f6d.PNG)
 
 _**Repeat the steps with Metricbeat using the metricbeat config.yml file and the metricbeat playbook file**._ 
 

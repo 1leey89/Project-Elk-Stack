@@ -9,7 +9,7 @@ Project 1 Diagram of Elk.PNG
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _YML configuration_ file may be used to install only certain pieces of it, such as Filebeat.
 
-<details><summary>Elk Installation Playbook</summary>
+<details><summary>**Click here for ** Elk Installation Playbook</summary>
 ```
 ---
 

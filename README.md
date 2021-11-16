@@ -347,11 +347,15 @@ SSH into the control node and follow the steps below:
 
 ![machine specification in hosts](https://user-images.githubusercontent.com/88859779/141648782-6a2a6cc7-4c7d-4de8-b737-a484503d8f73.png)
 
-- Run the playbook, and navigate to _the Elk VM via Kibana URL_ to check that the installation worked as expected.
+- Run the playbook, and navigate to _the Elk VM via Kibana URL_ to check that the filebeat installation worked as expected.
 
 ![Verify Installation Playbook](https://user-images.githubusercontent.com/88859779/141648789-d77284ca-f13a-499c-ab4e-7f27ae353f6d.PNG)
 
 _**Repeat the steps with Metricbeat using the metricbeat config.yml file and the metricbeat playbook file**._ 
+
+- Run the playbook, and navigate to _the Elk VM via Kibana URL_ to check that the metricbeat installation worked as expected.
+
+![Verify Metricbeat](https://user-images.githubusercontent.com/88859779/142044240-2fc83cb4-ac7b-42d4-9c93-87b96c8a8bcc.png)
 
 Which file is the playbook? _Filebeat-playbook.yml_
 

@@ -11,7 +11,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
 
 <p>
 <details>
-  <summary>Ansible ELK Server Installation Playbook</summary>
+  <summary>ELK Installation Playbook</summary>
   
 <pre><code>---
 - name: Configure ELK
@@ -64,7 +64,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
 
 <p>
 <details>
-  <summary>DVWA Install File</summary>
+  <summary>VM with Docker Installation</summary>
   
   <pre><code>
   ---
@@ -152,7 +152,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
   <summary>Metricbeats Playbook</summary>
   
   <pre><code>---
-- name: Install metric beat
+- name: Install Metricbeat
   hosts: webservers
   become: true
   tasks:

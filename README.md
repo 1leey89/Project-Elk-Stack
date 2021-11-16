@@ -68,7 +68,8 @@ These files have been tested and used to generate a live ELK deployment on Azure
 
 <details><summary> Web VM Docker</summary>
 ```
-------
+---
+	
 - name: Config Web VM with Docker
   hosts: webservers
   become: true
@@ -107,6 +108,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
 <details><summary> Filebeat Playbook</summary>
 ```
 ---
+	
 - name: Installing and Launch Filebeat
   hosts: webservers
   become: yes
@@ -148,6 +150,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
 <details><summary> Metricbeat Playbook</summary>
 ```
 ---
+	
 - name: Install metric beat
   hosts: webservers
   become: true

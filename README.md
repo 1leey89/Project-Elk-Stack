@@ -9,7 +9,7 @@ Project 1 Diagram of Elk.PNG
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _YML configuration_ file may be used to install only certain pieces of it, such as Filebeat.
 
-<details><summary>**Click here for ** Elk Installation Playbook</summary>
+<details><summary> Elk Installation Playbook</summary>
 ```
 ---
 
@@ -66,6 +66,127 @@ These files have been tested and used to generate a live ELK deployment on Azure
 	```
 </details>
 
+<details><summary> Web VM Docker</summary>
+```
+ ---
+- name: Config Web VM with Docker
+  hosts: webservers
+  become: true
+  tasks:
+  - name: docker.io
+    apt:
+      force_apt_get: yes
+      update_cache: yes
+      name: docker.io
+      state: present
+
+  - name: Install pip3
+    apt:
+      force_apt_get: yes
+      name: python3-pip
+      state: present
+
+  - name: Install Docker python module
+    pip:
+      name: docker
+      state: present
+
+  - name: download and launch a docker web container
+    docker_container:
+      name: dvwa
+      image: cyberxsecurity/dvwa
+      state: started
+      published_ports: 80:80
+
+  - name: Enable docker service
+    systemd:
+      name: docker
+      enabled: yes
+	```
+</details>
+
+<details><summary> Filebeat Playbook</summary>
+```
+---
+- name: Installing and Launch Filebeat
+  hosts: webservers
+  become: yes
+  tasks:
+    # Use command module
+  - name: Download filebeat .deb file
+    command: curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.0-amd64.deb
+
+    # Use command module
+  - name: Install filebeat .deb
+    command: dpkg -i filebeat-7.4.0-amd64.deb
+
+    # Use copy module
+  - name: Drop in filebeat.yml
+    copy:
+      src: /etc/ansible/filebeat-config.yml
+      dest: /etc/filebeat/filebeat.yml
+
+    # Use command module
+  - name: Enable and Configure System Module
+    command: filebeat modules enable system
+
+    # Use command module
+  - name: Setup filebeat
+    command: filebeat setup
+
+    # Use command module
+  - name: Start filebeat service
+    command: service filebeat start
+
+    # Use systemd module
+  - name: Enable service filebeat on boot
+    systemd:
+      name: filebeat
+      enabled: yes
+	```
+</details>
+
+<details><summary> Metricbeat Playbook</summary>
+```
+---
+- name: Install Metricbeat
+  hosts: webservers
+  become: true
+  tasks:
+    # Use command module
+  - name: Download metricbeat
+    command: curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.4.0-amd64.deb
+
+    # Use command module
+  - name: install metricbeat
+    command: dpkg -i metricbeat-7.4.0-amd64.deb
+
+    # Use copy module
+  - name: drop in metricbeat config
+    copy:
+      src: /etc/ansible/metricbeat-config.yml
+      dest: /etc/metricbeat/metricbeat.yml
+
+    # Use command module
+  - name: enable and configure docker module for metric beat
+    command: metricbeat modules enable docker
+
+    # Use command module
+  - name: setup metric beat
+    command: metricbeat setup
+
+    # Use command module
+  - name: start metric beat
+    command: service metricbeat start
+
+    # Use systemd module
+  - name: Enable service metricbeat on boot
+    systemd:
+      name: metricbeat
+      enabled: yes
+	```
+</details>
+
 This document contains the following details:
 - Description of the Topology
 - Access Policies
@@ -101,14 +222,14 @@ _Metricbeat records metrics and statistical data which is then sent out to a spe
 
 The configuration details of each machine may be found below.
 
-| Name          | Function       | IP Address      | Operating System |
-|---------------|----------------|-----------------|------------------|
-| Jump Box      | Gateway        | 10.0.0.4        | Linux            |
-| DVWA-VM1      | Server         | 10.0.0.5        | Linux            |
-| DVWA-VM2      | Server         | 10.0.0.6        | Linux            |
-| ELK-server    | Monitoring     | 10.1.0.4        | Linux            |
-| Load Balancer | LB             | 20.155.122.213  | Linux            |
-| User          | Access Control | Public IP       | Windows 10       |
+| Name          | Function       | IP Address                     | Operating System |
+|---------------|----------------|--------------------------------|------------------|
+| Jump Box      | Gateway        | 52.249.250.19/10.0.0.4         | Linux            |
+| DVWA-VM1      | Server         | 10.0.0.5/Static IP             | Linux            |
+| DVWA-VM2      | Server         | 10.0.0.6/Static IP             | Linux            |
+| ELK-server    | Monitoring     | 20.112.100.232/10.1.0.4        | Linux            |
+| Load Balancer | LB             | Static IP                      | Linux            |
+| User          | Access Control | External IP                    | Windows 10       |
 
 ### Access Policies
 
@@ -118,21 +239,22 @@ Only the _Jump Box Provisioner_ machine can accept connections from the Internet
 
 _The local host IP address: 52.249.250.19._
 
-Machines within the network can only be accessed by _each other._
+Machines within the network can only be accessed by _Jump Box Provisioner._
 
-Which machine did you allow to access your ELK VM? _Jump Box Provisioner_
+Which machine did you allow to access your ELK VM? What was its IP address? 
 
-What was its IP address?_Private IP: 10.0.0.4 via ssh port 22_
+_Jump Box Provisioner Private IP: 10.0.0.4 via ssh port 22 and User Public IP via TCP port 5601._
 
 A summary of the access policies in place can be found in the table below.
 
-| Name                 | Publicly Accessible | Allowed IP Addresses     |
-|----------------------|---------------------|--------------------------|
-| Jump Box Provisioner | Yes                 | 52.249.250.19            |
-| Elk-Server           | No                  | 10.0.0.0-254             |
-| DVWA-Web1            | No                  | 10.0.0.0-254             |
-| DVWA-Web2            | No                  | 10.0.0.0-254             |
-                 
+| Name                 | Publicly Accessible | Allowed IP Addresses                    |
+|----------------------|---------------------|-----------------------------------------|
+| Jump Box Provisioner | Yes                 | User Public IP via ssh port 22          |
+| Elk-Server           | No                  | User Public IP via ssh TCP port 5601    |
+| DVWA-Web1            | No                  | 10.0.0.4 via ssh port 22                |
+| DVWA-Web2            | No                  | 10.0.0.4 via ssh port 22                |
+| Load Balancer        | No                  | User Public IP via HTTP port 80         |   
+   
 
 ### Elk Configuration
 
@@ -140,7 +262,7 @@ Ansible was used to automate configuration of the ELK machine. No configuration 
 
 What is the main advantage of automating configuration with Ansible?
 
-_Ansible allows you to deploy multiple applications using a single playbook._
+_- Ansible allows you to deploy multiple applications using a single playbook into your servers._
 
 The playbook implements the following tasks:
 

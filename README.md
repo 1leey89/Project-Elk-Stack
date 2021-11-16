@@ -63,11 +63,11 @@ These files have been tested and used to generate a live ELK deployment on Azure
       systemd:
         name: docker
         `enabled: yes`
-	```
+	
 </details>
 
 <details><summary> Web VM Docker</summary>
-```
+
 ---
 	
 - name: Config Web VM with Docker
@@ -106,7 +106,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
 </details>
 
 <details><summary> Filebeat Playbook</summary>
-```
+
 ---
 	
 - name: Installing and Launch Filebeat
@@ -148,7 +148,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
 </details>
 
 <details><summary> Metricbeat Playbook</summary>
-```
+
 ---
 	
 - name: Install metric beat

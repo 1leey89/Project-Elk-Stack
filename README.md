@@ -9,106 +9,106 @@ Project 1 Diagram of Elk.PNG
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _YML configuration_ file may be used to install only certain pieces of it, such as Filebeat.
 
-<details><summary> Elk Installation Playbook</summary>
-```
----
+<p>
+<details>
+  <summary>Ansible ELK Server Installation Playbook</summary>
+  
+<pre><code>---
+- name: Configure ELK
+  hosts: ELK
+  remote_user: sysadmin
+  become: True
+  tasks:
+  - name: use more memory
+    sysctl:
+      name: vm.max_map_count
+      value: '262144'
+      state: present
+      reload: yes
 
-	- name: Configure Elk VM with Docker
-  	  hosts: elk
-  	  remote_user: sysadmin
-      become: true
-  	  tasks:
-    	# Use apt module
-    - name: Install docker.io
-      apt:
-        update_cache: yes
-        name: docker.io
-        state: present
+  - name: docker.io
+    apt:
+      update_cache: yes
+      name: docker.io
+      state: present
 
-      `# Use apt module`
-    - name: Install pip3
-      apt:
-        force_apt_get: yes
-        name: python3-pip
-        state: present
+  - name: Install pip3
+    apt:
+     force_apt_get: yes
+     name: python3-pip
+     state: present
 
-      `# Use pip module`
-    - name: Install Docker python module
-      pip:
-        name: docker
-        state: present
+  - name: install python module
+    pip:
+      name: docker
+      state: present
 
-      `# Use sysctl module`
-    - name: Use more memory
-      sysctl:
-        name: vm.max_map_count
-        value: "262144"
-        state: present
-        reload: yes
+  - name: elk container
+    docker_container:
+      name: elk
+      image: sebp/elk:761
+      state: started
+      restart_policy: always
+      published_ports:
+        - 5601:5601
+        - 9200:9200
+        - 5044:5044
+        
+  - name: Enable Service docker on boot
+    systemd:
+      name: docker
+      enabled: yes</code></pre>
 
-      `# Use docker_container module`
-    - name: download and launch a docker elk container
-      docker_container:
-        name: elk
-        image: sebp/elk:761
-        state: started
-        restart_policy: always
-        published_ports:
-          - 5601:5601
-          - 9200:9200
-          - 5044:5044
+  </details>
+  </p>
 
-      `# Use systemd module`
-    - name: Enable service docker on boot
-      systemd:
-        name: docker
-        `enabled: yes`
-	
-</details>
-
-<details><summary> Web VM Docker</summary>
-
----
-	
+<p>
+<details>
+  <summary>DVWA Install File</summary>
+  
+  <pre><code>
+  ---
 - name: Config Web VM with Docker
   hosts: webservers
   become: true
   tasks:
-    - name: docker.io
-      apt:
-        update_cache: yes
-        name: docker.io
-        state: present
+  - name: docker.io
+    apt:
+      force_apt_get: yes
+      update_cache: yes
+      name: docker.io
+      state: present
 
-    - name: Install pip3
-      apt:
-        name: python3-pip
-        state: present
+  - name: Install pip3
+    apt:
+      force_apt_get: yes
+      name: python3-pip
+      state: present
 
-    - name: Install Docker python module
-      pip:
-        name: docker
-        state: present
+  - name: Install Docker python module
+    pip:
+      name: docker
+      state: present
 
-    - name: download and launch a docker web container
-      docker_container:
-        name: dvwa
-        image: cyberxsecurity/dvwa
-        state: started
-        restart_policy: always
-        published_ports: 80:80
+  - name: download and launch a docker web container
+    docker_container:
+      name: dvwa
+      image: cyberxsecurity/dvwa
+      state: started
+      published_ports: 80:80
 
-    - name: Enable docker service
-      systemd:
-        name: docker
-        enabled: yes
-	```
-</details>
+  - name: Enable docker service
+    systemd:
+      name: docker
+      enabled: yes</code></pre>
+  </details>
+  </p>
 
-<details><summary> Filebeat Playbook</summary>
-
----
-	
+<p>
+<details>
+  <summary>Filebeats Playbook</summary>
+  
+  <pre><code>---
 - name: Installing and Launch Filebeat
   hosts: webservers
   become: yes
@@ -124,7 +124,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
     # Use copy module
   - name: Drop in filebeat.yml
     copy:
-      src: /etc/ansible/files/filebeat-config.yml
+      src: /etc/ansible/filebeat-config.yml
       dest: /etc/filebeat/filebeat.yml
 
     # Use command module
@@ -143,14 +143,15 @@ These files have been tested and used to generate a live ELK deployment on Azure
   - name: Enable service filebeat on boot
     systemd:
       name: filebeat
-      enabled: yes
-	```
-</details>
-
-<details><summary> Metricbeat Playbook</summary>
-
----
-	
+      enabled: yes</code></pre>
+  </details>
+  </p>
+  
+<p>
+<details>
+  <summary>Metricbeats Playbook</summary>
+  
+  <pre><code>---
 - name: Install metric beat
   hosts: webservers
   become: true
@@ -166,7 +167,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
     # Use copy module
   - name: drop in metricbeat config
     copy:
-      src: /etc/ansible/files/metricbeat-config.yml
+      src: /etc/ansible/metricbeat-config.yml
       dest: /etc/metricbeat/metricbeat.yml
 
     # Use command module
@@ -185,9 +186,9 @@ These files have been tested and used to generate a live ELK deployment on Azure
   - name: Enable service metricbeat on boot
     systemd:
       name: metricbeat
-      enabled: yes
-	```
-</details>
+      enabled: yes</code></pre>
+  </details>
+  </p>
 
 This document contains the following details:
 - Description of the Topology

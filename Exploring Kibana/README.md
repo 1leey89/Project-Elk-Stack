@@ -35,9 +35,13 @@ _Between the hours of 12 P.M. and 1 P.M., the country had the highest amount of 
 List all the types of downloaded files that have been identified for the last 7 days, along with a short description of each file type (use Google if you aren't sure about a particular file type).
 
 _.gz – a compressed zip file using the standard GNU zip compression algorithm.
+
 .css (Cascading Style Sheets) – file used to format HTML elements on a webpage.
-.zip – used to group multiple files in one compressed file to simplify file sharing, especially when sharing       large file contents via email.
+
+.zip – used to group multiple files in one compressed file to simplify file sharing, especially when sharing large file contents via email.
+
 .deb – is a Debian Unix archive that contains software package files for download on a terminal.
+
 .rpm (Red Hat Package Manager) – used to store installation packages on Linux OS._
 
 ![Host, visits, and Bytes Tables](https://user-images.githubusercontent.com/88859779/142129015-50ac535f-d2b6-424d-913e-ac2eceae54a7.png)

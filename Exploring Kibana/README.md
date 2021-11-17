@@ -1,5 +1,5 @@
                                                  Activity File: Exploring Kibana
- <font size="12"> Answer the following questions:</font> 
+### Answer the following questions:
 
 In the last 7 days, how many unique visitors were located in India? 
 

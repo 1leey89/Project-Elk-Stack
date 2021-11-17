@@ -1,5 +1,5 @@
                                                  Activity File: Exploring Kibana
-##Answer the following questions:
+Answer the following questions:
 
 In the last 7 days, how many unique visitors were located in India? 
 
